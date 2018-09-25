@@ -5,16 +5,22 @@ import Post from './Post'
 import { List, Container, Button } from 'semantic-ui-react'
 import { handleRemove } from '../Redux/actions/posts'
 import Comments from './Comments'
+import CommentForm from './CommentForm'
+
 class PostDetail extends Component {
-    
-    remove = (id) => { 
-        const {dispatch } = this.props
+
+    remove = (id) => {
+        const { dispatch } = this.props
 
         dispatch(handleRemove(id))
 
         this.props.history.push('/')
     }
-    
+
+    addComment = () => {
+        return <CommentForm />
+    }
+
     render() {
         const { post } = this.props
 
@@ -40,8 +46,9 @@ class PostDetail extends Component {
                 <List horizontal>
                     <Post id={id} />
                     <List.Content>
-                        <Button content='Remove' negative onClick={ () => this.remove(id)}  />
-                        <Button content='edit' primary />
+                        <Button content='Remove' negative onClick={() => this.remove(id)} />
+                        <Button content='Edit Post' primary />
+                        <Link to={`/post/${id}/comment`}> <Button content='Add Comment' /></Link>
                     </List.Content>
                 </List>
 

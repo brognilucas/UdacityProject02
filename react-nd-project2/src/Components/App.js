@@ -5,10 +5,12 @@ import HomePage from './HomePage';
 import PostDetail from './PostDetail'
 import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import CommentForm from './CommentForm';
 class App extends Component {
 
   state = {
-    order: "voteScore"
+    order: "voteScore",
+    inModal: true
   }
   componentDidMount() {
     const { dispatch } = this.props
@@ -33,6 +35,7 @@ class App extends Component {
             <HomePage order={this.state.order} changeOrder={(e) => this.changeOrder(e)} />
           )} />
           <Route path='/post/:id' component={PostDetail} />
+          <Route exact path='/post/:id/comment' component={CommentForm}/>
         </div>
       </Router>
     );

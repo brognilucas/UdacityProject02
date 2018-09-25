@@ -14,7 +14,6 @@ class Post extends Component {
         dispatch(handleSendVote(vote, id))
     }
 
-
     render() {
         const { post } = this.props
 

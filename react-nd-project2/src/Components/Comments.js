@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { receiveCommentsHandle } from '../Redux/actions/comments'
 import { Segment } from 'semantic-ui-react'
-import { comment } from 'postcss';
+import Comment from './Comment'
 class Comments extends Component {
 
     componentDidMount() {
@@ -14,12 +14,12 @@ class Comments extends Component {
     render() {
         const { comments } = this.props
 
-        console.log(comments)
         return (
             <Segment>
+                <h3> Comments </h3>
                 {comments.map(comment => (
                     <div key={comment}>
-                        <p> {comment} </p>
+                        <Comment id={comment} />
                     </div>
                 ))}
             </Segment>
