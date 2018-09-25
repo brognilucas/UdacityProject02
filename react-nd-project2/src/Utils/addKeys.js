@@ -6,3 +6,13 @@ export const addKeyPost = (posts) => {
 
     return objRet
 }
+
+
+export const formatComment = (comments) => {
+    const objComment = { }
+    Object.values(comments).map(comment => {
+        objComment[comment.id] = comment
+    })
+
+    return objComment
+}

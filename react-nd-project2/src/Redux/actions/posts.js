@@ -3,7 +3,8 @@ import { HEADER, API } from "../../config";
 import { addKeyPost } from '../../Utils/addKeys'
 export const TYPES = { 
     RECEIVE_POSTS: 'RECEIVE_POSTS', 
-    VOTE: 'VOTE'
+    VOTE: 'VOTE', 
+    REMOVE: 'REMOVE'
 }
 
 
@@ -21,6 +22,12 @@ function sendVote(vote , id){
     }
 }
 
+function removePost(post){
+    return { 
+        type: TYPES.REMOVE , 
+        post
+    }
+}
 
 export function handleGetPosts(){
     return async (dispatch) => {
@@ -39,5 +46,13 @@ export function handleSendVote(vote , id ){
 
             vote  === 'upVote' ? dispatch(sendVote('downVote')) : dispatch(sendVote('upVote'))
         })
+    }
+}
+
+export function handleRemove(id){
+    return async (dispatch) => {
+        const remove = await Axios.delete(API +  `/posts/${id}` , HEADER )
+        
+        dispatch(removePost(remove.data))
     }
 }

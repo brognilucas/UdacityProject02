@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { addKeyPost } from '../Utils/addKeys'
 
-import Category from './Category';
+import CategoryList from './CategoryList'
 import { List, Segment, Button } from 'semantic-ui-react'
 import Post from './Post';
+import { Link, withRouter } from 'react-router-dom'
 class HomePage extends Component {
 
     changeOrdering = (item) => {
@@ -14,14 +16,7 @@ class HomePage extends Component {
         const { categories, posts } = this.props
         return (
             <div>
-                <div>
-                    <h3> Category </h3>
-                    <List horizontal relaxed='very'>
-                        {Object.values(categories).map(category => (
-                            <Category key={category.name} category={category} />
-                        ))}
-                    </List>
-                </div>
+                <CategoryList categories={categories} />
                 <div>
                     <div>
                         <Segment.Group horizontal>
@@ -47,10 +42,27 @@ class HomePage extends Component {
     }
 }
 
-function mapStateToProps({ posts, categories }, { order }) {
+function mapStateToProps({ posts, categories }, props) {
+
+    const { category } = props.match.params
+
+    const { order } = props
+
+    if (category) {
+
+        const postsFiltered = Object.values(posts).filter((post) => post.category === category)
+
+        return {
+            categories,
+            posts: Object.keys(addKeyPost(postsFiltered)).sort((a, b) => {
+                return posts[b][order] - posts[a][order]
+            })
+        }
+    }
+
     return {
         categories,
-        posts: Object.keys(posts).sort((a, b) => {
+        posts: Object.keys(posts).filter(post => !post.deleted).sort((a, b) => {
             return posts[b][order] - posts[a][order]
         })
     }
@@ -59,4 +71,4 @@ function mapStateToProps({ posts, categories }, { order }) {
 
 
 
-export default connect(mapStateToProps)(HomePage);
+export default withRouter(connect(mapStateToProps)(HomePage));
