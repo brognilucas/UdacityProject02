@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Button, Header } from 'semantic-ui-react'
-import { withFormik, Form, Field } from 'formik'
+import { withFormik, Form, Field , ErrorMessage} from 'formik'
 import { connect } from 'react-redux'
 import { sendComment, editComment } from '../Redux/actions/comments'
 
@@ -21,6 +21,17 @@ const CommentForm =
                 body: ''
             }
 
+        },
+        isInitialValid: (props) => props.comment,
+        validate: (values ) => {
+            let errors = {};
+    
+            Object.keys(values).map(key => {
+                if (values[key] === '')
+                    errors[key] = `Inform the ${key}`
+            })
+    
+            return errors;
         },
         handleSubmit: (values, { props }) => {
             if (props.comment) {
@@ -55,13 +66,15 @@ class MyForm extends Component {
                             <div className="field">
                                 <span> Author </span>
                                 <Field placeholder='Author' name="author" />
+                                <ErrorMessage name="author" className='ui pointing red' />
                             </div>
                         )}
                         <div className="field">
                             <span> Comment </span>
                             <Field placeholder='Your Comment here' name="body" />
+                            <ErrorMessage name="body" className='ui pointing red' />
                         </div>
-                        <Button type="submit" primary>
+                        <Button type="submit" primary disabled={!this.props.isValid}>
                             Submit
                         </Button>
 
