@@ -20,6 +20,16 @@ export default function posts(state = {}, action) {
                 ...state,
                 [action.post.id] : action.post 
             }
+        case TYPES.ADD_POST: 
+            return { 
+                ...state,
+                [action.post.id]: action.post 
+            }
+        case TYPES.EDIT_POST: 
+            return { 
+                ...state, 
+                [action.post.id]: action.post
+            }
         default:
             return state
     }

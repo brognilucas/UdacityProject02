@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-// import {  } from 'semantic-ui-react'
-import { Button, Header, Modal, Icon, List } from 'semantic-ui-react'
+import { Card, Container, Icon } from 'semantic-ui-react'
 import moment from 'moment'
 import { handleSendVote } from '../Redux/actions/posts'
 import { Link } from 'react-router-dom'
-import PostDetail from './PostDetail';
+import { receiveCommentsHandle } from '../Redux/actions/comments'
 class Post extends Component {
 
     vote = (vote, id) => {
@@ -14,61 +13,66 @@ class Post extends Component {
         dispatch(handleSendVote(vote, id))
     }
 
+    componentDidMount() {
+        const { dispatch, id } = this.props
+
+        dispatch(receiveCommentsHandle(id))
+    }
+
     render() {
-        const { post } = this.props
+        const { post, replies } = this.props
 
         if (post === null)
             return <div></div>
 
         return (
-            <List.Item>
-                <List.Content floated='left'>
-                    <div className="ui cards">
-                        <div className="card">
+            <Card.Group>
+                <Card fluid>
+                    <div className="content">
 
-                            <div className="content">
-
-                                <div className="header">
-                                    {post.title}
-                                </div>
-                                <div className="meta">
-                                    By: {post.author} at {moment(post.timestamp).format('MMMM Do YYYY, h:mm:ss a')}
-                                </div>
-                                <div className='meta'>
-                                    Category: {post.category}
-                                </div>
-                                <div className="description">
-                                    {post.body}
-                                </div>
-                            </div>
-                            <Link to={`/post/${post.id}`}> Show Detail </Link>
-                            <div className="extra content">
-                                <div className="floating ui teal label">
-                                    {post.voteScore}
-                                </div>
-                                <div className="ui two buttons">
-                                    <button onClick={() => this.vote('upVote', post.id)} className="ui basic green button">Up Vote  </button>
-
-                                    <button onClick={() => this.vote('downVote', post.id)} className="ui basic red button">Down Vote </button>
-                                </div>
-                            </div>
-
+                        <div className="header">
+                            {post.title}
+                        </div>
+                        <div className="meta">
+                            By: {post.author} at {moment(post.timestamp).format('MMMM Do YYYY, h:mm:ss a')}
+                        </div>
+                        <div className='meta'>
+                            Category: {post.category}
+                        </div>
+                        <div className="description">
+                            {post.body}
                         </div>
                     </div>
-                </List.Content>
-            </List.Item >
+                    <Link to={`${post.category}/${post.id}`}> Show Detail </Link>
+                    <div className="extra content">
+                        <Container fluid>
+                            <Icon name='like' /> Points {post.voteScore}
+                            <Icon style={{ marginLeft: 10 }} name='reply' /> Replies {replies}
+                        </Container>
+
+                        <button onClick={() => this.vote('upVote', post.id)} className="ui basic green button">Up Vote  </button>
+
+                        <button onClick={() => this.vote('downVote', post.id)} className="ui basic red button">Down Vote </button>
+
+                    </div>
+
+                </Card>
+            </Card.Group>
 
         )
     }
 }
 
-function mapStateToProps({ posts }, { id }) {
+function mapStateToProps({ posts, comments }, { id }) {
 
     const post = posts[id]
-
+    const replies = Object.keys(comments).filter(comment => {
+        return comments[comment].parentId === id
+    })
 
     return {
-        post: post ? !post.deleted ? post : null : null
+        post: post ? !post.deleted ? post : null : null,
+        replies: replies.length
     }
 }
 

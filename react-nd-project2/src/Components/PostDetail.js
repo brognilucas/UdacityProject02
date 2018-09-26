@@ -34,7 +34,7 @@ class PostDetail extends Component {
             )
         }
 
-        const { id } = post
+        const { id, category } = post
 
         return (
 
@@ -43,14 +43,13 @@ class PostDetail extends Component {
                     <Link to='/'> Back </Link>
                 </Container>
 
-                <List horizontal>
-                    <Post id={id} />
-                    <List.Content>
-                        <Button content='Remove' negative onClick={() => this.remove(id)} />
-                        <Button content='Edit Post' primary />
-                        <Link to={`/post/${id}/comment`}> <Button content='Add Comment' /></Link>
-                    </List.Content>
-                </List>
+
+                <Post id={id} />
+                <List.Content>
+                    <Button content='Remove' negative onClick={() => this.remove(id)} />
+                    <Link to={`/post/${category}/${id}`} > <Button content='Edit Post' primary /></Link>
+                    <Link to={`/post/${id}/comment/new`}> <Button content='Add Comment' /></Link>
+                </List.Content>
 
                 <Comments id={id} />
             </div>

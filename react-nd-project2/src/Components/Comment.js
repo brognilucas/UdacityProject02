@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Container, Header, Segment, Label, Button } from 'semantic-ui-react'
 import moment from 'moment'
-import CommentForm from './CommentForm';
 import { Link , withRouter } from 'react-router-dom'
 import { deleteComment , voteComment } from '../Redux/actions/comments'
 class Comment extends Component {

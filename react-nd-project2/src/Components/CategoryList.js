@@ -14,6 +14,12 @@ const CategoryList = (props) => (
             {Object.values(props.categories).map(category => (
                 <Category key={category.name} category={category} />
             ))}
+             <List.Item>
+                <List.Content>
+                    <Link to='/post/new'> Add new Post  </Link>
+                </List.Content>
+            </List.Item>
+         
         </List>
     </div>
 )

@@ -1,10 +1,13 @@
 import Axios from "axios";
 import { HEADER, API } from "../../config";
 import { addKeyPost } from '../../Utils/addKeys'
+import { generateId } from "../../Utils/generation";
 export const TYPES = { 
     RECEIVE_POSTS: 'RECEIVE_POSTS', 
     VOTE: 'VOTE', 
-    REMOVE: 'REMOVE'
+    REMOVE: 'REMOVE',
+    ADD_POST: 'ADD_POST',
+    EDIT_POST: 'EDIT_POST'
 }
 
 
@@ -26,6 +29,20 @@ function removePost(post){
     return { 
         type: TYPES.REMOVE , 
         post , id: post.id
+    }
+}
+
+function addPostHandler(post){
+    return { 
+        type: TYPES.ADD_POST , 
+        post
+    }
+}
+
+function editPostHandler(post){
+    return { 
+        type: TYPES.EDIT_POST , 
+        post
     }
 }
 
@@ -54,5 +71,22 @@ export function handleRemove(id){
         const remove = await Axios.delete(API +  `/posts/${id}` , HEADER )
         
         dispatch(removePost(remove.data))
+    }
+}
+
+export function addPost(post){
+    return async (dispatch) => {
+        post = { ...post , id: generateId() ,  timestamp: Date.now() }
+        const { data } = await Axios.post(`${API}/posts` , post,  HEADER)
+        
+        dispatch(addPostHandler(data))
+    }
+}
+
+export function editPost(post, id ){
+    return async (dispatch) => {
+       const {data} = await Axios.put(`${API}/posts/${id}` , post , HEADER)
+
+       dispatch(editPostHandler(data))
     }
 }

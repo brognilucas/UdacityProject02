@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { addKeyPost } from '../Utils/addKeys'
 
 import CategoryList from './CategoryList'
-import { List, Segment, Button } from 'semantic-ui-react'
+import { Segment } from 'semantic-ui-react'
 import Post from './Post';
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 class HomePage extends Component {
 
     changeOrdering = (item) => {
@@ -30,13 +30,12 @@ class HomePage extends Component {
                         </Segment.Group>
                     </div>
                     <h3> Posts </h3>
-                    <List horizontal relaxed='very'>
+                    <Segment>
                         {posts.map((post) => (
                             <Post key={post} id={post} />
                         ))}
-                    </List>
+                    </Segment>
                 </div>
-                <Button content='Add new Post' />
             </div>
         )
     }

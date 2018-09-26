@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Button, Icon, Header, Input, TextArea } from 'semantic-ui-react'
+import { Modal, Button, Header } from 'semantic-ui-react'
 import { withFormik, Form, Field } from 'formik'
 import { connect } from 'react-redux'
 import { sendComment, editComment } from '../Redux/actions/comments'
@@ -21,11 +21,8 @@ const CommentForm =
                 body: ''
             }
 
-
         },
-
         handleSubmit: (values, { props }) => {
-
             if (props.comment) {
                 props.dispatch(editComment(values, props.comment.id))
             }
@@ -87,11 +84,9 @@ function mapStateToProps({ comments }, props) {
             id, comment
         }
     }
-
     return {
         id
     }
-
 }
 
 export default connect(mapStateToProps)(CommentForm(MyForm))
