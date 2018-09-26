@@ -31,7 +31,7 @@ function mapStateToProps({ comments }, { id }) {
 
     return {
         id,
-        comments: Object.keys(comments).sort( (a,b) => comments[b].voteScore - comments[a].voteScore)
+        comments: Object.keys(comments).filter(comment => comments[comment].parentId === id && !comments[comment].deleted ).sort( (a,b) => comments[b].voteScore - comments[a].voteScore)
     }
 }
 

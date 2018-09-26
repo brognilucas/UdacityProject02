@@ -25,7 +25,7 @@ function sendVote(vote , id){
 function removePost(post){
     return { 
         type: TYPES.REMOVE , 
-        post
+        post , id: post.id
     }
 }
 
@@ -43,7 +43,7 @@ export function handleSendVote(vote , id ){
         Axios.post(API + `/posts/${id}` , { option: vote } , HEADER)
         .catch(error => {
             console.warn('An error ocurred ' , error)
-
+            
             vote  === 'upVote' ? dispatch(sendVote('downVote')) : dispatch(sendVote('upVote'))
         })
     }

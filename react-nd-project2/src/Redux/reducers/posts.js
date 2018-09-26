@@ -16,8 +16,6 @@ export default function posts(state = {}, action) {
                 }
             }
         case TYPES.REMOVE:
-
-    
             return {
                 ...state,
                 [action.post.id] : action.post 

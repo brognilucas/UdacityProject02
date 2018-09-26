@@ -1,23 +1,47 @@
 import React, { Component } from 'react'
-import { Modal, Button, Icon, Header, Input, TextArea, Form } from 'semantic-ui-react'
+import { Modal, Button, Icon, Header, Input, TextArea } from 'semantic-ui-react'
+import { withFormik, Form, Field } from 'formik'
+import { connect } from 'react-redux'
+import { sendComment, editComment } from '../Redux/actions/comments'
 
-class CommentForm extends Component {
 
+const CommentForm =
+    withFormik({
+        enableReinitialize: true,
+        mapPropsToValues: (props) => {
+
+            if (props.comment) {
+                return {
+                    body: props.comment.body
+                }
+            }
+
+            return {
+                author: '',
+                body: ''
+            }
+
+
+        },
+
+        handleSubmit: (values, { props }) => {
+
+            if (props.comment) {
+                props.dispatch(editComment(values, props.comment.id))
+            }
+            else {
+                props.dispatch(sendComment(values, props.id))
+            }
+
+            props.history.goBack()
+        }
+    })
+
+class MyForm extends Component {
 
     handleClose = () => {
         this.props.history.goBack()
     }
-
-    submitComment = () => {
-
-    }
-
-    state = {
-        name: '',
-        comment: ''
-    }
-
-
 
     render() {
         return (
@@ -28,26 +52,46 @@ class CommentForm extends Component {
 
                 <Header icon='browser' content='Comment' />
                 <Modal.Content>
-                    <Form onSubmit={() => this.submitComment}>
-                        <Input placeholder='Name' value={this.state.name} onChange={(e) => this.setState(() => ({
-                            name: e.target.value
-                        }))} />
-                        <TextArea autoHeight placeholder='Try adding multiple lines' rows={2} value={this.state.comment}
-                            onChange={(e) => this.setState(() => ({
-                                comment: e.target.value
-                            }))}
+                    <Form className='ui form'>
 
-                        />
+                        {!this.props.comment && (
+                            <div className="field">
+                                <span> Author </span>
+                                <Field placeholder='Author' name="author" />
+                            </div>
+                        )}
+                        <div className="field">
+                            <span> Comment </span>
+                            <Field placeholder='Your Comment here' name="body" />
+                        </div>
+                        <Button type="submit" primary>
+                            Submit
+                        </Button>
+
+                        <Button type="button" negative onClick={this.handleClose}>
+                            Cancel
+                        </Button>
                     </Form>
                 </Modal.Content>
-                <Modal.Actions>
-                    <Button color='green' onClick={this.handleClose} inverted>
-                        <Icon name='checkmark' /> Got it
-                    </Button>
-                </Modal.Actions>
             </Modal>
         )
     }
 }
 
-export default CommentForm
+function mapStateToProps({ comments }, props) {
+    const { id, commentId } = props.match.params
+
+    let comment = comments[commentId]
+    if (commentId) {
+        return {
+            id, comment
+        }
+    }
+
+    return {
+        id
+    }
+
+}
+
+export default connect(mapStateToProps)(CommentForm(MyForm))

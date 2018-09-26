@@ -36,6 +36,7 @@ class App extends Component {
           )} />
           <Route path='/post/:id' component={PostDetail} />
           <Route exact path='/post/:id/comment' component={CommentForm}/>
+          <Route exact path='/post/:id/comment/:commentId' component={CommentForm}/>
         </div>
       </Router>
     );

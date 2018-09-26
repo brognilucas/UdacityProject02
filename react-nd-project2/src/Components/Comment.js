@@ -3,9 +3,20 @@ import { connect } from 'react-redux'
 import { Container, Header, Segment, Label, Button } from 'semantic-ui-react'
 import moment from 'moment'
 import CommentForm from './CommentForm';
+import { Link , withRouter } from 'react-router-dom'
+import { deleteComment , voteComment } from '../Redux/actions/comments'
 class Comment extends Component {
-    vote = (vote) => {
+    
+    vote = (vote , id) => {
+        const { dispatch } = this.props
 
+        dispatch(voteComment(vote, id))
+    }
+
+    removeComment =  (comment ) => {
+        const { dispatch } = this.props
+        
+        dispatch(deleteComment(comment))
     }
 
     render() {
@@ -29,8 +40,8 @@ class Comment extends Component {
                         <button onClick={() => this.vote('downVote', comment.id)} className="ui basic red button">Down Vote </button>
                     </div>
                     <div style={{paddingTop: 10}}>
-                        <Button content='Edit comment' />
-                        <Button negative content='Remove comment' />
+                        <Link to={`/post/${comment.parentId}/comment/${comment.id}`}> <Button content='Edit Comment' /></Link>
+                        <Button negative content='Remove comment' onClick={ () => this.removeComment(comment)} />
                     </div>
                 </Container>
             </Segment >
@@ -38,11 +49,14 @@ class Comment extends Component {
     }
 }
 
-function mapStateToProps({ comments }, { id }) {
+function mapStateToProps({ comments }, {id} ) {
+
+  
     const comment = comments[id]
+
     return {
         comment
     }
 }
 
-export default connect(mapStateToProps)(Comment)
+export default withRouter(connect(mapStateToProps)(Comment))
