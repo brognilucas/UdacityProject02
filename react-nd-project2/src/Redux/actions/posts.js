@@ -25,10 +25,10 @@ function sendVote(vote , id){
     }
 }
 
-function removePost(post){
+function removePost(post , id ){
     return { 
         type: TYPES.REMOVE , 
-        post , id: post.id
+        post , id
     }
 }
 
@@ -68,9 +68,9 @@ export function handleSendVote(vote , id ){
 
 export function handleRemove(id){
     return async (dispatch) => {
-        const remove = await Axios.delete(API +  `/posts/${id}` , HEADER )
+        const { data } = await Axios.delete(API +  `/posts/${id}` , HEADER )
         
-        dispatch(removePost(remove.data))
+        dispatch(removePost(data , data.id))
     }
 }
 

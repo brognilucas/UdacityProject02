@@ -5,6 +5,7 @@ import {
 } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { addPost, editPost } from '../Redux/actions/posts'
+import CustomTextArea from './CustomTextArea';
 
 const PostForm = withFormik({
     enableReinitialize: true,
@@ -96,7 +97,7 @@ class MyForm extends Component {
                         )}
                         <div className="field">
                             <span> Post </span>
-                            <Field placeholder='Your Post here' name="body" />
+                            <Field placeholder='Your Post here' component={CustomTextArea} name="body" />
                             <ErrorMessage name="body" />
                         </div>
 

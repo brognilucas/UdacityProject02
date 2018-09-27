@@ -18,12 +18,9 @@ export default function comments(state = {}, action) {
                 [action.comment.id]: action.comment
             }
         case TYPES.REMOVE_COMMENT:
+            delete state[action.id]
             return {
-                ...state,
-                [action.id]: {
-                    ...state[action.id],
-                    deleted: true
-                }
+                ...state
             }
         case TYPES.VOTE_COMMENT:
             return {

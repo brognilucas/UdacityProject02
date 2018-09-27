@@ -16,18 +16,20 @@ export default function posts(state = {}, action) {
                 }
             }
         case TYPES.REMOVE:
+
+            console.log(action.id)
+            delete state[action.id]
+            return {
+                ...state
+            }
+        case TYPES.ADD_POST:
             return {
                 ...state,
-                [action.post.id] : action.post 
+                [action.post.id]: action.post
             }
-        case TYPES.ADD_POST: 
-            return { 
+        case TYPES.EDIT_POST:
+            return {
                 ...state,
-                [action.post.id]: action.post 
-            }
-        case TYPES.EDIT_POST: 
-            return { 
-                ...state, 
                 [action.post.id]: action.post
             }
         default:

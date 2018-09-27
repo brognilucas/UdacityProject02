@@ -7,34 +7,25 @@ import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import CommentForm from './CommentForm';
 import PostForm from './PostForm';
+import { Input } from 'semantic-ui-react'
+import Posts from './Posts';
 class App extends Component {
 
-  state = {
-    order: "voteScore",
-    inModal: true
-  }
+  
+
   componentDidMount() {
     const { dispatch } = this.props
 
     dispatch((handleGetInitialData()))
   }
 
-  changeOrder(order) {
-    this.setState(() => ({
-      order
-    }))
-  }
 
   render() {
     return (
       <Router>
         <div className='App'>
-          <Route path='/' exact render={() => (
-            <HomePage order={this.state.order} changeOrder={(e) => this.changeOrder(e)} />
-          )} />
-          <Route exact path='/:category' render={() => (
-            <HomePage order={this.state.order} changeOrder={(e) => this.changeOrder(e)} />
-          )} />
+          <Route path='/' exact component={HomePage}/>
+          <Route exact path='/:category' component={HomePage}/>
           <Route path='/:category/:id' component={PostDetail} />
           <Route exact path='/post/:id/comment/new' component={CommentForm}/>
           <Route exact path='/post/:id/comment/:commentId' component={CommentForm}/>

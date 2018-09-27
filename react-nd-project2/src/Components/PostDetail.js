@@ -6,6 +6,7 @@ import { Container, Button, Segment } from 'semantic-ui-react'
 import { handleRemove } from '../Redux/actions/posts'
 import Comments from './Comments'
 import CommentForm from './CommentForm'
+import Error404 from './Error404';
 
 class PostDetail extends Component {
 
@@ -24,13 +25,9 @@ class PostDetail extends Component {
     render() {
         const { post } = this.props
 
-        if (post === null) {
-            return (<div>
-                <Link to='/'> Back </Link>
-                <p>
-                    This Post doesn't exist
-                     </p>
-            </div>
+        if (!post) {
+            return (
+                <Error404 />
             )
         }
 

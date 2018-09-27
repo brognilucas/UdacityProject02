@@ -22,7 +22,7 @@ class Post extends Component {
     render() {
         const { post, replies } = this.props
 
-        if (post === null)
+        if (!post)
             return <div></div>
 
         return (
@@ -43,7 +43,7 @@ class Post extends Component {
                             {post.body}
                         </div>
                     </div>
-                    <Link to={`${post.category}/${post.id}`}> Show Detail </Link>
+                    <Link to={`/${post.category}/${post.id}`}> Show Detail </Link>
                     <div className="extra content">
                         <Container fluid>
                             <Icon name='like' /> Points {post.voteScore}
@@ -67,11 +67,11 @@ function mapStateToProps({ posts, comments }, { id }) {
 
     const post = posts[id]
     const replies = Object.keys(comments).filter(comment => {
-        return comments[comment].parentId === id
+        return comments[comment].parentId === id && !comments[comment].deleted
     })
 
     return {
-        post: post ? !post.deleted ? post : null : null,
+        post: post ? post : null ,
         replies: replies.length
     }
 }
