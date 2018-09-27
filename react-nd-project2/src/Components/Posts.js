@@ -48,7 +48,7 @@ function mapStateToProps({ posts, categories }, props) {
     const { order, title } = props
     if (category) {
 
-        const postsFiltered = Object.values(posts).filter((post) => post.category === category)
+        const postsFiltered = Object.values(posts).filter((post) => post.category === category && post.title.toUpperCase().includes(title.toUpperCase()))
 
         return {
             categories,
