@@ -1,7 +1,8 @@
 # Readable - Udacity Course - Second Module
 
-This project are be for the Udacity Course Nanodegree in React Development. 
-Represents an post lists where is possible create, edit and delete an post and comment and vote about him. 
+Project created while I was making the Nanodegree in React at Udacity. 
+Here we have the possibility to create, edit and delete posts, as well as you can comment and vote in those posts.
+ 
 
 ## Getting Started
 
